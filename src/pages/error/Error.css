@@ -1,0 +1,18 @@
+.error {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.error h2 {
+    font-size: 2rem;
+    color: #ef0010;
+    margin: 30px 0;
+}
+
+.error p {
+    font-size: 1.5rem;
+    color: #333;
+}

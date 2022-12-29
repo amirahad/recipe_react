@@ -5,7 +5,6 @@ import Create from './pages/create/Create'
 import Error from './pages/error/Error'
 import Home from './pages/home/Home'
 import Recipe from './pages/recipes/Recipes'
-import Search from './pages/search/Search'
 
 function App() {
 
@@ -16,9 +15,6 @@ function App() {
         <Switch>
           <Route exact path="/" >
             <Home />
-          </Route>
-          <Route path="/search" >
-            <Search />
           </Route>
           <Route path="/create" >
             <Create />

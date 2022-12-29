@@ -1,0 +1,46 @@
+.create {
+    max-width: 480px;
+    margin: 60px auto;
+}
+
+.create label span {
+    display: block;
+    margin: 30px 0 10px;
+}
+
+.create p {
+    margin: 10px 0;
+    font-size: 0.8rem;
+}
+
+.create input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.create button {
+    width: 100px;
+    margin: 20px auto;
+    padding: 8px 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #58249c;
+    color: #fff;
+    font-size: 1rem;
+    display: block;
+    cursor: pointer;
+}
+
+.create .ingredients {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .create {
+        max-width: 300px;
+    }
+}
