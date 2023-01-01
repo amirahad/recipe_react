@@ -21,6 +21,18 @@
     font-size: 1rem;
 }
 
+.dark input {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.dark textarea {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
 .create button {
     width: 100px;
     margin: 20px auto;

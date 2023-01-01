@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import useTheme from '../../hooks/useTheme';
 import './Search.css'
 
 export default function Search(props) {
     const [search, setSearch] = useState('');
+    const { mode } = useTheme();
     const handleChange = (e) => {
         setSearch(e.target.value);
     }
@@ -12,7 +14,7 @@ export default function Search(props) {
     }, [search])
 
     return (
-        <div className='search'>
+        <div className={`search ${mode}`}>
             <input
                 className='search-input'
                 type="text"

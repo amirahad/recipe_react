@@ -7,6 +7,15 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.dark {
+    background: #333 !important;
+    color: #fff;
+}
+
+.dark .page-title {
+    color: #fff;
+}
+
 .recipe .time {
     text-align: center;
 }
