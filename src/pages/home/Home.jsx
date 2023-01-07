@@ -1,22 +1,45 @@
 import './Home.css'
-import { useFetch } from '../../hooks/useFetch'
+//import { useFetch } from '../../hooks/useFetch'
 import RecipeList from '../../components/recipeList/RecipeList'
 import { useEffect, useState } from 'react';
 import Search from '../../components/search/Search';
+import { collection, onSnapshot } from 'firebase/firestore';
+
+import { db } from '../../firebase/firebase.config';
 
 export default function Home() {
 
-    const { data, isPending, error } = useFetch('http://localhost:3000/recipes');
-
-
     const [recipes, setRecipes] = useState([]);
     const [displayRecipes, setDisplayRecipes] = useState([]);
+    const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
-        if (data) {
-            setRecipes(data);
-            setDisplayRecipes(data);
-        }
-    }, [data]);
+        setIsPending(true);
+        const unsubscribe = onSnapshot(collection(db, "recipes"), (querySnapshot) => {
+            if (querySnapshot.empty) {
+                setError('No recipes found');
+                setIsPending(false);
+            } else {
+                const recipes = querySnapshot.docs.map(doc => {
+                    return {
+                        id: doc.id,
+                        ...doc.data()
+                    }
+                })
+                setRecipes(recipes);
+                setDisplayRecipes(recipes);
+                setIsPending(false);
+            }
+        }, (error) => {
+            setError(error.message);
+            setIsPending(false);
+        });
+
+        return () => unsubscribe();
+
+    }, [])
+
 
     const handleSearch = (searchValue) => {
         if (searchValue === '') {

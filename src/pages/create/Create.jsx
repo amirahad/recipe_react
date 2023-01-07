@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
-import { useFetch } from '../../hooks/useFetch'
+import { addDoc, collection } from 'firebase/firestore'
+import { useState, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
+import { db } from '../../firebase/firebase.config'
 import useTheme from '../../hooks/useTheme'
 
 // styles
@@ -15,13 +16,17 @@ export default function Create() {
   const [ingredients, setIngredients] = useState([])
   const ingredientInput = useRef(null)
   const { color, mode } = useTheme();
-
-  const { postData, data } = useFetch('http://localhost:3000/recipes', 'POST')
   const history = useHistory()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    postData({ title, ingredients, method, cookingTime: cookingTime + ' minutes' })
+    const doc = { title, ingredients, method, cookingTime: cookingTime + ' minutes' }
+    try {
+      await addDoc(collection(db, 'recipes'), doc)
+      history.push('/')
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const handleAdd = (e) => {
@@ -30,17 +35,14 @@ export default function Create() {
 
     if (ing && !ingredients.includes(ing)) {
       setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+    } else if (ing && ingredients.includes(ing)) {
+      alert('Ingredients already added!')
     }
     setNewIngredient('')
     ingredientInput.current.focus()
   }
 
-  // redirect the user when we get data response
-  useEffect(() => {
-    if (data) {
-      history.push("/");
-    }
-  }, [data, history])
+
 
   return (
     <div className={`create ${mode}`}>

@@ -1,13 +1,33 @@
+import { doc, onSnapshot } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useFetch } from '../../hooks/useFetch';
+import { db } from '../../firebase/firebase.config';
 import useTheme from '../../hooks/useTheme';
 import './Recipes.css'
 
 export default function Recipe() {
     const { id } = useParams();
-    const url = `http://localhost:3000/recipes/${id}`;
-    const { data, isPending, error } = useFetch(url);
     const { mode } = useTheme();
+    const [data, setData] = useState(null);
+    const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState(null);
+
+    //get single data matching the given id from firebase
+    useEffect(() => {
+        setIsPending(true);
+        onSnapshot(doc(db, "recipes", id), (doc) => {
+            if (doc.exists()) {
+                setData(doc.data());
+                setIsPending(false);
+            } else {
+                setError('No document!');
+                setIsPending(false);
+            }
+        })
+    }, [])
+
+
+
 
     return (
         <div className={`recipe ${mode}`}>
@@ -25,7 +45,6 @@ export default function Recipe() {
                         }
                     </ul>
                     <p className='method'>Method: {data.method}</p>
-
                 </>
             )}
         </div>

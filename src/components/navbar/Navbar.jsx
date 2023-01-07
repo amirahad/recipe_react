@@ -3,7 +3,6 @@ import useTheme from '../../hooks/useTheme';
 import './Navbar.css'
 
 export default function Navbar() {
-    // const { color } = useContext(ThemeContext);
     const { color } = useTheme();
     return (
         <div className="navbar" style={{ background: color }}>
